@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Terry Benjamin Jr | Technology Integration Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --bg: #f7f3e6;
+      --bg-gradient: radial-gradient(circle at top left, #ffe9b5 0, #f7f3e6 45%, #f0eadc 100%);
+      --card: #ffffff;
+      --accent: #f2c14f;
+      --accent-soft: #ffe9b5;
+      --accent-dark: #d59b23;
+      --accent-alt: #7ab8ff;
+      --text-main: #2f3437;
+      --text-muted: #555b60;
+      --border-soft: #e0d7c8;
+      --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.12);
+      --shadow-strong: 0 22px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Floating background orbs */
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.18;
+      filter: blur(2px);
+      z-index: -2;
+      mix-blend-mode: multiply;
+      animation: floatOrb 26s linear infinite alternate;
+    }
+
+    .bg-orb.one {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, #ffd86b, #ffb347);
+      top: -80px;
+      left: -120px;
+    }
+
+    .bg-orb.two {
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, #7ab8ff, #4a90e2);
+      bottom: -120px;
+      right: -140px;
+      animation-duration: 32s;
+    }
+
+    .bg-orb.three {
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, #ffb6c1, #ff7f9c);
+      top: 40%;
+      right: 12%;
+      animation-duration: 30s;
+    }
+
+    @keyframes floatOrb {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(18px, -24px, 0) scale(1.05);
+      }
+      100% {
+        transform: translate3d(-16px, 20px, 0) scale(1.02);
+      }
+    }
+
+    /* Header */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(
+        to bottom,
+        rgba(247, 243, 230, 0.92),
+        rgba(247, 243, 230, 0.82),
+        rgba(247, 243, 230, 0.0)
+      );
+      border-bottom: 1px solid rgba(224, 215, 200, 0.7);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.8rem 1rem 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin: 0;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .name-highlight {
+      position: relative;
+      display: inline-block;
+    }
+
+    .name-highlight::before {
+      content: "";
+      position: absolute;
+      inset: 60% -4px -3px -6px;
+      background: linear-gradient(90deg, #ffe9b5, #f2c14f);
+      border-radius: 999px;
+      z-index: -1;
+      opacity: 0.8;
+    }
+
+    .tagline {
+      margin: 0.15rem 0 0;
+      font-size: 0.98rem;
+      color: var(--text-muted);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.35rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.93rem;
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      transition: background 0.18s ease-out, color 0.18s ease-out, transform 0.18s ease-out, box-shadow 0.18s ease-out;
+      border: 1px solid transparent;
+    }
+
+    nav a:hover {
+      background: rgba(242, 193, 79, 0.22);
+      border-color: rgba(215, 155, 35, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    nav a.active {
+      background: #2f3437;
+      color: #fdf8ea;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 1.3rem auto 4rem;
+      padding: 0 1.1rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 3fr);
+      gap: 1.4rem;
+      margin-bottom: 2rem;
+      align-items: stretch;
+    }
+
+    /* Hero profile card with circular photo */
+
+    .hero-profile-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 22px;
+      padding: 1.4rem 1.5rem 1.5rem;
+      border: 1px solid rgba(224, 215, 200, 0.95);
+      box-shadow: 0 16px 46px rgba(0, 0, 0, 0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-profile-card::before {
+      content: "";
+      position: absolute;
+      inset: -45%;
+      background:
+        radial-gradient(circle at top left, rgba(255, 232, 170, 0.6), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(122, 184, 255, 0.55), transparent 58%);
+      opacity: 0.9;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero-profile-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.35rem;
+    }
+
+    .hero-photo-shell {
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      padding: 6px;
+      background: radial-gradient(circle at top, #ffe9b5, #f2c14f, #ffb6c1);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-photo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #ddd;
+      border: 4px solid rgba(255, 255, 255, 0.96);
+    }
+
+    .hero-photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-greeting {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin: 0.1rem 0 0;
+    }
+
+    .hero-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0.1rem 0 0;
+    }
+
+    .hero-role {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0.15rem 0 0.25rem;
+    }
+
+    .hero-profile-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem;
+      margin: 0.25rem 0 0.5rem;
+    }
+
+    .hero-profile-tag {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: rgba(247, 243, 230, 0.98);
+      border: 1px solid rgba(89, 95, 100, 0.2);
+    }
+
+    .hero-profile-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    .hero-profile-note {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    /* Right side of hero: text card + mini cards stacked */
+
+    .hero-right-column {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 0.9rem;
+    }
+
+    .hero-text-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 22px;
+      padding: 1.4rem 1.6rem;
+      border: 1px solid rgba(224, 215, 200, 0.9);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-text-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top left, rgba(255, 232, 170, 0.45), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(156, 203, 255, 0.45), transparent 58%);
+      opacity: 0.7;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero-text-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 1.6rem;
+      margin: 0 0 0.25rem;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.35rem 0 0.75rem;
+    }
+
+    .hero-pill {
+      padding: 0.18rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(89, 95, 100, 0.2);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      background: rgba(247, 243, 230, 0.9);
+      color: var(--text-muted);
+    }
+
+    .hero-text-card p {
+      font-size: 0.98rem;
+      margin-top: 0.3rem;
+    }
+
+    .hero-buttons {
+      margin-top: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #000;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+      transition: background 0.18s ease-out, transform 0.18s ease-out, box-shadow 0.18s ease-out;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: rgba(47, 52, 55, 0.96);
+      color: #fdf8ea;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2);
+      color: #000;
+    }
+
+    .btn.secondary:hover {
+      background: #16181a;
+      color: #fdf8ea;
+    }
+
+    .hero-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+    }
+
+    .hero-mini-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 18px;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(224, 215, 200, 0.9);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-mini-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top right, rgba(242, 193, 79, 0.3), transparent 65%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-mini-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-mini-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 0.1rem;
+    }
+
+    .hero-mini-title {
+      font-size: 1.02rem;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .hero-mini-text {
+      font-size: 0.9rem;
+      margin: 0.25rem 0 0;
+      color: var(--text-muted);
+    }
+
+    .pill-label {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(240, 230, 213, 0.98);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+      color: var(--text-muted);
+    }
+
+    section {
+      margin-bottom: 2.3rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 20px;
+      padding: 1.7rem 1.9rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(224, 215, 200, 0.9);
+      transition: box-shadow 0.22s ease-out, transform 0.22s ease-out, border-color 0.22s ease-out, background 0.22s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(242, 193, 79, 0.14), transparent 45%),
+        linear-gradient(-145deg, rgba(122, 184, 255, 0.12), transparent 40%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease-out;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
+      border-color: #e4c98a;
+      background: rgba(255, 255, 255, 0.99);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.7rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    .section-tag {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+    }
+
+    h3 {
+      margin-top: 1.1rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.12rem;
+    }
+
+    p {
+      margin: 0.3rem 0;
+      font-size: 0.98rem;
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      margin: 0.35rem 0 0.7rem;
+      font-size: 0.96rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.3rem;
+      margin-top: 0.8rem;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 1.2rem;
+      margin-top: 1rem;
+      align-items: flex-start;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figure img,
+    figure video {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      display: block;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s ease-out, filter 0.18s ease-out;
+      cursor: zoom-in;
+    }
+
+    figure video {
+      cursor: default;
+    }
+
+    figure img:hover,
+    figure video:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+      border-color: #e1c37e;
+      filter: saturate(1.04);
+    }
+
+    figcaption {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    .btn-row {
+      margin-top: 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    iframe {
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      width: 100%;
+      background: #000;
+    }
+
+    /* Lightbox overlay */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.6rem;
+      z-index: 80;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease-out;
+    }
+
+    .lightbox.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: min(1040px, 100%);
+      max-height: 100%;
+    }
+
+    .lightbox-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: var(--shadow-strong);
+      border: 1px solid #f0e6d5;
+      background: #000;
+      display: block;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: var(--card);
+      color: var(--text-main);
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-close:hover {
+      background: var(--accent);
+    }
+
+    /* Scroll reveal */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px) scale(0.99);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* THANK YOU SECTION - night sky with shooting stars */
+
+    .card.thank-you {
+      margin-top: 2.6rem;
+      padding: 2.3rem 1.9rem 2.6rem;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+      color: #f9fafb;
+      border-color: #020617;
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.9);
+    }
+
+    .card.thank-you::before {
+      display: none;
+    }
+
+    .thank-header {
+      text-align: center;
+      margin-bottom: 1.3rem;
+    }
+
+    .thank-title {
+      font-size: 1.7rem;
+      margin: 0 0 0.3rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .thank-subtitle {
+      margin: 0;
+      font-size: 0.98rem;
+      color: #e5e7eb;
+    }
+
+    .thank-highlight {
+      color: #fde68a;
+      font-weight: 600;
+    }
+
+    .thank-sky {
+      position: relative;
+      margin-top: 1.6rem;
+      border-radius: 22px;
+      height: 280px;
+      background:
+        radial-gradient(circle at top center, #111827 0, #020617 55%, #000 100%);
+      overflow: hidden;
+      border: 1px solid #111827;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.9);
+    }
+
+    /* star layers using box shadows */
+
+    .star-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 2px;
+      background: transparent;
+      box-shadow:
+        20px 40px #e5e7eb,
+        80px 120px #fefce8,
+        160px 30px #e5e7eb,
+        240px 90px #f9fafb,
+        320px 60px #e5e7eb,
+        400px 150px #e5e7eb,
+        480px 40px #fefce8,
+        560px 110px #e5e7eb,
+        40px 180px #f9fafb,
+        140px 210px #e5e7eb,
+        260px 200px #fefce8,
+        360px 230px #e5e7eb,
+        460px 190px #e5e7eb,
+        520px 220px #f9fafb;
+      opacity: 0.8;
+      animation: twinkle 9s linear infinite;
+    }
+
+    .star-layer.layer-2 {
+      box-shadow:
+        60px 30px #fefce8,
+        140px 80px #e5e7eb,
+        220px 50px #f9fafb,
+        300px 130px #e5e7eb,
+        380px 40px #fefce8,
+        440px 100px #e5e7eb,
+        520px 150px #f9fafb,
+        40px 120px #e5e7eb,
+        110px 170px #fefce8,
+        190px 230px #e5e7eb,
+        280px 180px #f9fafb,
+        360px 210px #e5e7eb,
+        430px 230px #fefce8,
+        560px 200px #e5e7eb;
+      animation-duration: 13s;
+      opacity: 0.9;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.5; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-1px); }
+    }
+
+    .shooting-star {
+      position: absolute;
+      top: -20px;
+      left: -120px;
+      width: 140px;
+      height: 2px;
+      /* bright head on the right, fading tail behind it */
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95));
+      border-radius: 999px;
+      box-shadow: 0 0 10px rgba(248, 250, 252, 0.9);
+      transform: rotate(18deg);
+      opacity: 0;
+      animation: shoot 6s linear infinite;
+    }
+
+    .shooting-star::after {
+      content: "";
+      position: absolute;
+      right: -3px;
+      top: -2px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fefce8;
+      box-shadow: 0 0 12px rgba(248, 250, 252, 1);
+    }
+
+    .shooting-star.s2 {
+      top: 40px;
+      animation-delay: 1.8s;
+      animation-duration: 7s;
+    }
+
+    .shooting-star.s3 {
+      top: 120px;
+      animation-delay: 3.5s;
+      animation-duration: 8s;
+      transform: rotate(14deg);
+    }
+
+    @keyframes shoot {
+      0% {
+        transform: translate3d(-160px, -10px, 0) rotate(18deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      45% {
+        transform: translate3d(520px, 120px, 0) rotate(18deg);
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .thank-text-bottom {
+      position: absolute;
+      inset: auto 0 1.3rem 0;
+      text-align: center;
+      color: #e5e7eb;
+      font-size: 0.96rem;
+      pointer-events: none;
+    }
+
+    .thank-text-bottom span {
+      color: #fde68a;
+      font-weight: 600;
+    }
+
+    /* Small screen tweaks */
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-profile-card {
+        order: 1;
+      }
+
+      .hero-right-column {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding-inline: 0.75rem;
+      }
+
+      .card {
+        padding: 1.4rem 1.3rem;
+      }
+
+      .media-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        backdrop-filter: blur(10px);
+      }
+
+      .header-inner {
+        padding-inline: 0.75rem;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+
+      nav a {
+        font-size: 0.86rem;
+      }
+
+      .thank-sky {
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="bg-orb one"></div>
+<div class="bg-orb two"></div>
+<div class="bg-orb three"></div>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>
+        <span class="name-highlight">Terry&nbsp;Benjamin&nbsp;Jr</span>
+      </h1>
+      <p class="tagline">Reflective portfolio for Technology and the Young Child</p>
+    </div>
+    <nav>
+      <a href="#mission-vision">Mission &amp; Vision</a>
+      <a href="#pecha-kucha">Pecha Kucha</a>
+      <a href="#sketchnote">Sketch Note</a>
+      <a href="#journey-map">Journey Map</a>
+      <a href="#voicethread">VoiceThread</a>
+      <a href="#lesson-video">Lesson &amp; Video Paper</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero overview with profile -->
+  <section class="hero reveal">
+    <!-- profile side -->
+    <div class="hero-profile-card">
+      <div class="hero-profile-inner">
+        <div class="hero-photo-shell">
+          <div class="hero-photo-inner">
+            <img src="media/Terry Picture.png" alt="Portrait of Terry Benjamin Jr">
+          </div>
+        </div>
+        <p class="hero-greeting">Hello, I am</p>
+        <p class="hero-name">Terry Benjamin Jr</p>
+        <p class="hero-role">Software engineer and technology focused educator in training</p>
+        <div class="hero-profile-tags">
+          <span class="hero-profile-tag">Active learning</span>
+          <span class="hero-profile-tag">Digital citizenship</span>
+          <span class="hero-profile-tag">AI and automation</span>
+          <span class="hero-profile-tag">Primary learners</span>
+        </div>
+        <div class="hero-profile-buttons">
+          <a class="btn" href="https://youtu.be/pPz6d1ff65I" target="_blank">Watch lesson on YouTube</a>
+          <a class="btn secondary" href="#journey-map">View journey map</a>
+        </div>
+        <p class="hero-profile-note">
+          Scroll to explore the mission, visuals, VoiceThread activity, and video paper.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right column: original hero text + mini cards -->
+    <div class="hero-right-column">
+      <div class="hero-text-card">
+        <div class="hero-text-inner">
+          <span class="pill-label">About this portfolio</span>
+          <h2 class="hero-title">Blending early learning with safe, thoughtful technology use</h2>
+          <div class="hero-pill-row">
+            <span class="hero-pill">Active learning</span>
+            <span class="hero-pill">Digital citizenship</span>
+            <span class="hero-pill">Student voice</span>
+          </div>
+          <p>
+            This portfolio gathers my core artifacts from Technology and the Young Child.
+            Each piece shows how I use simple digital tools to support young learners,
+            invite their ideas, and keep online spaces safe.
+          </p>
+          <p>
+            You can move through the sections to see my mission and vision, visual thinking work,
+            an internet safety lesson, a VoiceThread activity, and a brief video reflection.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn" href="#journey-map">Jump to journey map</a>
+            <a class="btn secondary" href="#lesson-video">Watch lesson and reflection</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-cards">
+        <div class="hero-mini-card">
+          <div class="hero-mini-card-inner">
+            <p class="hero-mini-label">Focus</p>
+            <p class="hero-mini-title">Young children as active digital citizens</p>
+            <p class="hero-mini-text">
+              Lessons are designed so that children move, talk, and decide,
+              not only watch a screen.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-mini-card">
+          <div class="hero-mini-card-inner">
+            <p class="hero-mini-label">Tools</p>
+            <p class="hero-mini-title">Visuals, VoiceThread, and video</p>
+            <p class="hero-mini-text">
+              I combine slides, sketchnotes, audio comments, and short videos
+              to support different learning preferences.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission and Vision -->
+  <section id="mission-vision" class="card reveal">
+    <div class="card-header-row">
+      <h2>Mission and Vision</h2>
+      <span class="section-tag">Who I want to be as a technology using educator</span>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>Mission Statement</h3>
+        <p>
+          As a technology driven educator and software engineer, my mission is to design learning
+          experiences where children and adult learners use digital tools to think, create, and act
+          safely online. I help learners make sense of technology by connecting it to real problems in
+          their lives, encouraging them to ask questions, test ideas, and share what they discover. I
+          work to create classrooms and training spaces that are inclusive, calm, and interactive, where
+          every learner feels seen and able to participate.
+        </p>
+        <p>
+          Within the education system I aim to support teachers, schools, and community programmes as they
+          integrate technology in practical ways. I focus on simple, accessible tools that increase student
+          voice, promote digital citizenship, and reduce unnecessary workload for educators. My purpose is
+          to bridge my expertise in software, automation, and artificial intelligence with the needs of
+          learners and teachers so that technology serves people, not the other way around.
+        </p>
+      </div>
+
+      <div>
+        <h3>Vision Statement</h3>
+        <p>
+          By 2030 I envision myself as a recognised educator technologist in the Caribbean who partners
+          with schools and organisations to build safe, engaging, technology rich learning environments
+          for children and youth. I see myself designing and sharing ready to use lesson ideas, digital
+          citizenship units, and automation tools that help teachers run active classrooms with less stress.
+        </p>
+        <p>
+          In this future I regularly lead workshops and online sessions where learners use devices,
+          multimedia, and simple artificial intelligence tools to investigate real questions, collaborate
+          across schools, and present their work to authentic audiences. My goal is for every class I
+          support to have routines where students create, reflect, and give feedback, not only consume
+          content.
+        </p>
+        <p>
+          This vision is ambitious but achievable because it builds on my current strengths in software
+          engineering, automation, and classroom experience, and extends them into sustained partnerships
+          with schools. It aligns with my core values of equity, safety, curiosity, and respect for
+          learners, and it gives me a concrete direction for the decisions I make about my own study,
+          practice, and professional growth.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pecha Kucha / Vlog -->
+  <section id="pecha-kucha" class="card reveal">
+    <div class="card-header-row">
+      <h2>Pecha Kucha / Vlog</h2>
+      <span class="section-tag">Opening ideas about children and technology</span>
+    </div>
+    <p>
+      This presentation introduces my beliefs about technology and early childhood learning and shows
+      how I began thinking about active, visual, and child centered lessons.
+    </p>
+
+    <div class="media-grid">
+      <figure>
+        <video controls src="media/Pecha Kucha.mp4">
+          Your browser does not support the video tag.
+        </video>
+        <figcaption>Pecha Kucha video</figcaption>
+      </figure>
+
+      <div>
+        <h3>Key messages from the Pecha Kucha</h3>
+        <ul>
+          <li>Children need concrete visuals, stories, and repetition.</li>
+          <li>Technology should stay simple and purposeful, not flashy for its own sake.</li>
+          <li>Young learners benefit when adults model safe and kind digital habits.</li>
+        </ul>
+        <div class="btn-row">
+          <a class="btn" href="media/Pecha Kucha.pptx" target="_blank">Download slides</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sketchnote -->
+  <section id="sketchnote" class="card reveal">
+    <div class="card-header-row">
+      <h2>Sketch Note</h2>
+      <span class="section-tag">Visual summary of course ideas</span>
+    </div>
+    <p>
+      This sketch note captures my main takeaways from the course readings in one visual page.
+      It helped me see connections between ideas like active learning, student agency, and tech integration.
+    </p>
+
+    <div class="media-grid">
+      <figure>
+        <img src="media/Terry Benjamin Jr Sketchnote.jpg"
+             alt="Sketchnote summarizing key ideas about technology and young children">
+        <figcaption>Course concepts sketched as icons and keywords</figcaption>
+      </figure>
+
+      <div>
+        <h3>Ideas I wanted to keep visible</h3>
+        <ul>
+          <li>Children learn best when they move, talk, and make things, not only listen.</li>
+          <li>Technology can extend stories, play, and collaboration when used in small, focused ways.</li>
+          <li>Teachers need clear goals first, then tools that match those goals.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey map -->
+  <section id="journey-map" class="card reveal">
+    <div class="card-header-row">
+      <h2>Journey Map with Instructional Objectives</h2>
+      <span class="section-tag">How my technology use developed across the course</span>
+    </div>
+    <p>
+      The journey map shows how my technology use moved from personal use to a structured lesson
+      on internet safety and then into plans for future student projects.
+    </p>
+
+    <div class="media-grid">
+      <figure>
+        <img src="media/journey-map.png"
+             alt="Journey map titled My Technology Integration Journey, showing five stages along a path">
+        <figcaption>My Technology Integration Journey</figcaption>
+      </figure>
+
+      <div>
+        <h3>Learner persona</h3>
+        <p>
+          Primary school students learning about basic online safety and personal information.
+        </p>
+
+        <h3>Instructional objectives</h3>
+        <ul>
+          <li>Students will name examples of personal information they should keep private online.</li>
+          <li>Students will decide if simple scenarios are safe or not safe and explain why.</li>
+          <li>Students will share one way they plan to stay safe online after the lesson.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- VoiceThread -->
+  <section id="voicethread" class="card reveal">
+    <div class="card-header-row">
+      <h2>VoiceThread Activity</h2>
+      <span class="section-tag">Audio reflections layered on the journey map</span>
+    </div>
+    <p>
+      I used VoiceThread to layer audio reflections on top of the journey map and to model how
+      I might invite student voice in a tech supported activity.
+    </p>
+
+    <h3>How I used VoiceThread</h3>
+    <ul>
+      <li>Added short audio comments that walk through three key stages of the journey map.</li>
+      <li>Explained how the mini lesson connected to course readings and active learning.</li>
+      <li>Included a prompt where viewers can leave their own audio response about next steps.</li>
+    </ul>
+
+    <div class="btn-row">
+      <a class="btn" href="https://voicethread.com/myvoice/thread/31968613/181164243/161278193"
+         target="_blank">Open VoiceThread</a>
+    </div>
+  </section>
+
+  <!-- Lesson and video paper -->
+  <section id="lesson-video" class="card reveal">
+    <div class="card-header-row">
+      <h2>Fifteen Minute Lesson and Video Paper</h2>
+      <span class="section-tag">Internet safety lesson and short reflection</span>
+    </div>
+
+    <div class="media-grid">
+      <div>
+        <h3>Internet Safety Mini Lesson</h3>
+        <p>
+          This lesson introduced primary students to internet safety using a slideshow,
+          a short video, and a safe or not safe discussion activity.
+        </p>
+        <p>
+          The goal was to keep the pace quick, invite many student responses, and help them
+          connect rules to real online situations.
+        </p>
+
+        <div class="btn-row">
+          <a class="btn secondary" href="https://youtu.be/pPz6d1ff65I" target="_blank">
+            Watch lesson on YouTube
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h3>Video Paper Reflection</h3>
+        <p>
+          In this two minute video I reflect on how active learning felt in practice,
+          how I might adapt the lesson for children who do not read English, and how the
+          technology choices supported engagement.
+        </p>
+        <video controls src="media/Video Paper.mp4" style="width:100%;">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- THANK YOU STARFIELD -->
+  <section id="thanks" class="card reveal thank-you">
+    <div class="thank-header">
+      <h2 class="thank-title">Thank You For Exploring</h2>
+      <p class="thank-subtitle">
+        I am grateful that you took time to walk through my journey as a
+        <span class="thank-highlight">technology using educator</span>.
+      </p>
+      <p class="thank-subtitle">
+        I hope these artifacts show how simple tools, clear structure, and curiosity can help young children feel safe and powerful when they use technology.
+      </p>
+    </div>
+
+    <div class="thank-sky">
+      <div class="star-layer"></div>
+      <div class="star-layer layer-2"></div>
+      <div class="shooting-star"></div>
+      <div class="shooting-star s2"></div>
+      <div class="shooting-star s3"></div>
+
+      <div class="thank-text-bottom">
+        Thank you for viewing my portfolio. <span>Here is to many more bright learning moments ahead.</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Lightbox overlay for zooming images -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <div class="lightbox-content">
+    <button class="lightbox-close" aria-label="Close enlarged image">&times;</button>
+    <img id="lightbox-image" src="" alt="">
+  </div>
+</div>
+
+<script>
+  // Image lightbox
+  (function () {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
+    const closeButton = document.querySelector(".lightbox-close");
+
+    document.querySelectorAll("figure img").forEach(function (img) {
+      img.addEventListener("click", function () {
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt || "";
+        lightbox.classList.add("visible");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove("visible");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.src = "";
+      document.body.style.overflow = "";
+    }
+
+    closeButton.addEventListener("click", closeLightbox);
+
+    lightbox.addEventListener("click", function (event) {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && lightbox.classList.contains("visible")) {
+        closeLightbox();
+      }
+    });
+  })();
+
+  // Scroll reveal for sections
+  (function () {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+  })();
+
+  // Simple scroll spy for nav links
+  (function () {
+    const sections = document.querySelectorAll("main section.card, main section.hero");
+    const navLinks = document.querySelectorAll("nav a");
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (!id) return;
+            navLinks.forEach(link => {
+              if (link.getAttribute("href") === "#" + id) {
+                link.classList.add("active");
+              } else {
+                link.classList.remove("active");
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.45 }
+    );
+
+    sections.forEach(sec => observer.observe(sec));
+  })();
+</script>
+
+</body>
+</html>
