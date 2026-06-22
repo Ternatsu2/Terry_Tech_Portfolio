@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Training Plan Readiness Gate</title>
+    <meta
+      name="description"
+      content="A small feature stub for AI Training Plan that turns athlete readiness signals into an explainable training adjustment."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17211d;
+        --muted: #5c6862;
+        --faint: #e5ede8;
+        --paper: #f7faf6;
+        --panel: #ffffff;
+        --green: #2c7a55;
+        --green-soft: #dff4e9;
+        --amber: #b86a1f;
+        --amber-soft: #fff0d9;
+        --red: #b34242;
+        --red-soft: #ffe5e3;
+        --blue: #2f5f92;
+        --shadow: 0 24px 70px rgba(25, 45, 35, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(circle at 12% 12%, rgba(78, 145, 105, 0.16), transparent 28rem),
+          linear-gradient(140deg, #f6faf7 0%, #edf5f0 52%, #f9fbf7 100%);
+        color: var(--ink);
+      }
+
+      main {
+        width: min(1180px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 38px 0 46px;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
+        gap: 28px;
+        align-items: stretch;
+      }
+
+      .intro,
+      .coach-panel {
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(190, 207, 196, 0.75);
+        border-radius: 30px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .intro {
+        padding: 34px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 680px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #2c7a55, #87caa2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        position: relative;
+      }
+
+      .mark::after {
+        content: "";
+        position: absolute;
+        inset: 11px;
+        border: 2px solid rgba(255, 255, 255, 0.95);
+        border-left-color: transparent;
+        border-radius: 999px;
+      }
+
+      h1 {
+        margin: 44px 0 20px;
+        max-width: 10ch;
+        font-size: clamp(48px, 7vw, 82px);
+        line-height: 0.95;
+        letter-spacing: -0.055em;
+      }
+
+      .lead {
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.65;
+      }
+
+      .proof-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .proof {
+        min-height: 118px;
+        border-radius: 22px;
+        padding: 18px;
+        background: #f0f7f2;
+        border: 1px solid #d9e9dd;
+      }
+
+      .proof strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 21px;
+        letter-spacing: -0.03em;
+      }
+
+      .proof span {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .note {
+        margin-top: 30px;
+        padding-top: 24px;
+        border-top: 1px solid var(--faint);
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .coach-panel {
+        padding: 26px;
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--faint);
+      }
+
+      .panel-head h2 {
+        margin: 0;
+        font-size: 24px;
+        letter-spacing: -0.04em;
+      }
+
+      .status-pill {
+        border: 1px solid #cfe2d6;
+        background: #eff8f2;
+        border-radius: 999px;
+        padding: 8px 12px;
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      form {
+        display: grid;
+        gap: 17px;
+        margin-top: 22px;
+      }
+
+      .field {
+        display: grid;
+        gap: 9px;
+      }
+
+      label {
+        font-size: 13px;
+        font-weight: 800;
+        color: #314139;
+      }
+
+      input,
+      select {
+        width: 100%;
+        border: 1px solid #d7e3dc;
+        background: #fbfdfb;
+        border-radius: 16px;
+        padding: 14px 15px;
+        color: var(--ink);
+        font: inherit;
+        outline: none;
+        transition:
+          border-color 180ms ease,
+          box-shadow 180ms ease,
+          transform 180ms ease;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: rgba(44, 122, 85, 0.75);
+        box-shadow: 0 0 0 4px rgba(44, 122, 85, 0.12);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .range-line {
+        display: grid;
+        gap: 10px;
+      }
+
+      input[type="range"] {
+        padding: 0;
+        accent-color: var(--green);
+        background: transparent;
+      }
+
+      .range-meta {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      button {
+        margin-top: 6px;
+        border: 0;
+        border-radius: 18px;
+        background: #17211d;
+        color: #ffffff;
+        min-height: 54px;
+        padding: 0 20px;
+        font: inherit;
+        font-weight: 850;
+        cursor: pointer;
+        transition:
+          transform 180ms ease,
+          background 180ms ease;
+      }
+
+      button:hover {
+        background: #25332d;
+      }
+
+      button:active {
+        transform: translateY(1px) scale(0.99);
+      }
+
+      .result {
+        margin-top: 24px;
+        border-radius: 26px;
+        border: 1px solid var(--faint);
+        overflow: hidden;
+        background: #f9fcfa;
+      }
+
+      .result-top {
+        padding: 22px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .result-label {
+        width: fit-content;
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .result h3 {
+        margin: 0;
+        font-size: 30px;
+        line-height: 1;
+        letter-spacing: -0.05em;
+      }
+
+      .result p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .coach-note {
+        border-top: 1px solid var(--faint);
+        padding: 20px 22px;
+        background: #ffffff;
+      }
+
+      .coach-note strong {
+        display: block;
+        margin-bottom: 9px;
+      }
+
+      .green .result-label {
+        color: var(--green);
+        background: var(--green-soft);
+      }
+
+      .amber .result-label {
+        color: var(--amber);
+        background: var(--amber-soft);
+      }
+
+      .red .result-label {
+        color: var(--red);
+        background: var(--red-soft);
+      }
+
+      @media (max-width: 900px) {
+        main {
+          width: min(100vw - 24px, 680px);
+          padding-top: 18px;
+        }
+
+        .shell,
+        .grid-2,
+        .proof-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .intro {
+          min-height: auto;
+          padding: 26px;
+        }
+
+        h1 {
+          max-width: 12ch;
+          margin-top: 32px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="shell" aria-label="AI Training Plan feature stub">
+        <div class="intro">
+          <div>
+            <div class="brand">
+              <span class="mark" aria-hidden="true"></span>
+              <span>AI Training Plan concept stub</span>
+            </div>
+            <h1>Readiness before the plan changes.</h1>
+            <p class="lead">
+              A small feature stub for endurance athletes who need their plan to react to real life. The tool turns
+              simple daily signals into an explainable recommendation before an AI coach adjusts the workout.
+            </p>
+            <div class="proof-strip">
+              <div class="proof">
+                <strong>Explainable</strong>
+                <span>Shows why the recommendation changed, so athletes do not blindly follow model output.</span>
+              </div>
+              <div class="proof">
+                <strong>Coach-ready</strong>
+                <span>Creates a short handoff note a human coach or support team could review.</span>
+              </div>
+              <div class="proof">
+                <strong>Safe first</strong>
+                <span>Uses deterministic checks for risk signals before any AI-generated adjustment.</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="note">
+            The production version would pull baselines from Garmin, Strava, Intervals.icu, or Apple Health. This stub
+            keeps the logic visible so the product team can discuss thresholds, UX, and where an LLM should enter the
+            workflow.
+          </p>
+        </div>
+
+        <div class="coach-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Workout Readiness Gate</h2>
+              <p class="lead" style="font-size: 15px; margin: 8px 0 0">
+                Enter today’s signals. The recommendation updates with a clear reason and coach handoff note.
+              </p>
+            </div>
+            <span class="status-pill">Beta stub</span>
+          </div>
+
+          <form id="readiness-form">
+            <div class="grid-2">
+              <div class="field">
+                <label for="sleep">Sleep last night</label>
+                <input id="sleep" type="number" min="0" max="14" step="0.25" value="6.5" />
+              </div>
+              <div class="field">
+                <label for="hr">Resting HR above baseline</label>
+                <input id="hr" type="number" min="-15" max="40" step="1" value="5" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label for="load">Yesterday’s training load</label>
+                <input id="load" type="number" min="0" max="300" step="1" value="72" />
+              </div>
+              <div class="field">
+                <label for="workout">Planned workout</label>
+                <select id="workout">
+                  <option>Easy endurance</option>
+                  <option selected>Tempo session</option>
+                  <option>Intervals</option>
+                  <option>Long run or ride</option>
+                  <option>Strength session</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="range-line">
+              <label for="soreness">Muscle soreness</label>
+              <input id="soreness" type="range" min="1" max="5" value="3" />
+              <div class="range-meta">
+                <span>Low</span>
+                <strong id="soreness-value">3 / 5</strong>
+                <span>High</span>
+              </div>
+            </div>
+
+            <button type="submit">Update recommendation</button>
+          </form>
+
+          <section class="result amber" id="result" aria-live="polite">
+            <div class="result-top">
+              <span class="result-label" id="result-label">Adjust</span>
+              <h3 id="result-title">Reduce intensity today.</h3>
+              <p id="result-copy">
+                Sleep is a little short and your resting heart rate is elevated. Keep the session, but reduce the
+                intensity and cap the work block.
+              </p>
+            </div>
+            <div class="coach-note">
+              <strong>Coach handoff note</strong>
+              <p id="coach-note">
+                Athlete planned a tempo session after moderate load. Recommend changing the main set to controlled
+                aerobic work and checking recovery again tomorrow.
+              </p>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const form = document.querySelector("#readiness-form");
+      const result = document.querySelector("#result");
+      const soreness = document.querySelector("#soreness");
+      const sorenessValue = document.querySelector("#soreness-value");
+
+      const label = document.querySelector("#result-label");
+      const title = document.querySelector("#result-title");
+      const copy = document.querySelector("#result-copy");
+      const note = document.querySelector("#coach-note");
+
+      function getWorkoutRisk(workout) {
+        if (workout.includes("Intervals")) return 2;
+        if (workout.includes("Tempo")) return 2;
+        if (workout.includes("Long")) return 1;
+        return 0;
+      }
+
+      function updateRecommendation() {
+        const sleep = Number(document.querySelector("#sleep").value);
+        const hr = Number(document.querySelector("#hr").value);
+        const load = Number(document.querySelector("#load").value);
+        const sorenessScore = Number(soreness.value);
+        const workout = document.querySelector("#workout").value;
+
+        sorenessValue.textContent = `${sorenessScore} / 5`;
+
+        let risk = getWorkoutRisk(workout);
+        if (sleep < 6) risk += 2;
+        if (sleep >= 7.5) risk -= 1;
+        if (hr >= 8) risk += 2;
+        else if (hr >= 4) risk += 1;
+        if (load >= 110) risk += 2;
+        else if (load >= 75) risk += 1;
+        if (sorenessScore >= 4) risk += 2;
+        else if (sorenessScore === 3) risk += 1;
+
+        result.classList.remove("green", "amber", "red");
+
+        if (risk <= 2) {
+          result.classList.add("green");
+          label.textContent = "Green";
+          title.textContent = "Keep the plan.";
+          copy.textContent =
+            "The main readiness signals look stable. Keep the session as planned and log how the effort feels afterward.";
+          note.textContent =
+            `Athlete is cleared for ${workout.toLowerCase()}. No adjustment needed now. Monitor trend after the session.`;
+        } else if (risk <= 5) {
+          result.classList.add("amber");
+          label.textContent = "Adjust";
+          title.textContent = "Reduce intensity today.";
+          copy.textContent =
+            "One or more recovery signals are under pressure. Keep the training habit, but reduce the intensity or shorten the key block.";
+          note.textContent =
+            `Athlete planned ${workout.toLowerCase()} with mixed readiness. Recommend reducing intensity and checking sleep, HR, and soreness tomorrow.`;
+        } else {
+          result.classList.add("red");
+          label.textContent = "Recovery";
+          title.textContent = "Replace the workout.";
+          copy.textContent =
+            "Recovery risk is high enough that the plan should change. Replace the session with rest, mobility, or easy aerobic movement.";
+          note.textContent =
+            `Athlete planned ${workout.toLowerCase()} but readiness signals are high risk. Recommend recovery work and human review if this pattern repeats.`;
+        }
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        updateRecommendation();
+      });
+
+      soreness.addEventListener("input", updateRecommendation);
+      document.querySelectorAll("input, select").forEach((field) => {
+        field.addEventListener("change", updateRecommendation);
+      });
+
+      updateRecommendation();
+    </script>
+  </body>
+</html>
